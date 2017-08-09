@@ -1,0 +1,1 @@
+These files are copied from the dist/ folder of [swagger-ui](https://github.com/swagger-api/swagger-ui).

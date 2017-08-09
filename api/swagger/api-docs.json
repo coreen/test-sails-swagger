@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "test-sails-swagger",
+    "description": "Pokedex to test Sails and Swagger UI",
+    "version": "0.0.1"
+  },
+  "tags": [
+    {
+      "name": "Pokemon"
+    }
+  ],
+  "definitions": {
+    "pokemon": {
+      "properties": {
+        "pokemonId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "type": {
+          "type": "string",
+          "format": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "summary": "Returns current health of service",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/pokemon": {
+      "get": {
+        "summary": "Retrieves all original 151 pokemon",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/pokemon"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Pokemon"
+        ]
+      }
+    },
+    "/pokemon/{pokemonId}": {
+      "get": {
+        "summary": "Retrieves single pokemon entity",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pokemonId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/pokemon"
+            }
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Pokemon"
+        ]
+      }
+    }
+  }
+}
