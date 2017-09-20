@@ -9,13 +9,18 @@ const pkgjson = require('../../package.json');
 
 module.exports = {
   healthcheck: function(req, res) {
-    return res.ok({
-       "health": "ok"
-    });
-    // TODO: make this actually measure service health
-//    res.status(503);
-//    return res.send({
-//       "health": "bad"
-//    });
+    // app is healthy if pokedex load successful
+    Pokemon.find({}).exec(function(err, something){
+        if (something) {
+            return res.ok({
+               "health": "ok"
+            });
+  		} else {
+           res.status(503);
+           return res.send({
+              "health": "bad"
+           });
+        }
+  	});
   }
 };
