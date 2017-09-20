@@ -10,11 +10,11 @@ const pokedex = require('../services/pokedex');
 module.exports = {
     find: function(req, res) {
         Pokemon.find({}).exec(function(err, allPokemon) {
-	  if (err)
-	    return res.serverError(err);
-		
-	  return res.ok(allPokemon);
-	});
+          if (err)
+            return res.serverError(err);
+
+          return res.ok(allPokemon);
+        });
     },
     findOne: function(req, res) {
         let pid = req.params.pokemonId;

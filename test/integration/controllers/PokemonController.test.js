@@ -11,8 +11,6 @@ describe('PokemonController', () => {
     });
   });
 
-  // TODO: implement single pokemon endpoint and uncomment
-  /*
   describe('single pokemon', () => {
     it('should return 200 with correct contents', (done) => {
       request(sails.hooks.http.app)
@@ -25,5 +23,4 @@ describe('PokemonController', () => {
           }, done);
     });
   });
-  */
 });

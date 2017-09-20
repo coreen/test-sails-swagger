@@ -73,7 +73,6 @@ app.lift({
       // triggers .createEach() behavior
       app.models.pokemon.create(data)
         .exec(function(err, created) {
-          console.log('created',created);
           console.log('Sails app lifted at http://localhost:1337');
         });
     }
