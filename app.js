@@ -25,9 +25,9 @@
 process.chdir(__dirname);
 
 // Attempt to import `sails`.
-var sails;
+var Sails;
 try {
-  sails = require('sails');
+  Sails = require('sails').Sails;
 } catch (e) {
   console.error('To run an app using `node app.js`, you usually need to have a version of `sails` installed in the same directory as your app.');
   console.error('To do that, run `npm install sails`');
@@ -38,23 +38,44 @@ try {
   return;
 }
 
-// --•
-// Try to get `rc` dependency (for loading `.sailsrc` files).
-var rc;
-try {
-  rc = require('rc');
-} catch (e0) {
-  try {
-    rc = require('sails/node_modules/rc');
-  } catch (e1) {
-    console.error('Could not find dependency: `rc`.');
-    console.error('Your `.sailsrc` file(s) will be ignored.');
-    console.error('To resolve this, run:');
-    console.error('npm install rc --save');
-    rc = function () { return {}; };
+// Load pokedex into database and start server
+// Reference: https://gist.github.com/mikermcneil/bb09c39e19b50b9d0dd7
+var Filesystem = require('machinepack-fs');
+var app = new Sails();
+app.lift({
+  log: { level: 'warn' }
+}, function(err) {
+  if (err) {
+    console.error('Error loading app:',err);
+    return process.exit(1);
   }
-}
-
-
-// Start server
-sails.lift(rc('sails'));
+  Filesystem.readJson({
+    source: './api/services/pokedex.json',
+    schema: [{
+      pokemonId: 0,
+      name: "Pokemon",
+      type: "normal"
+    }]
+  }).exec({
+    error: function(err) {
+      console.error('Error occurred reading pokedex');
+      return process.exit(1);
+    },
+    doesNotExist: function() {
+      console.error('Could not locate file');
+      return process.exit(1);
+    },
+    couldNotParse: function() {
+      console.error('Error occurred trying to parse file');
+      return process.exit(1);
+    },
+    success: function(data) {
+      // triggers .createEach() behavior
+      app.models.pokemon.create(data)
+        .exec(function(err, created) {
+          console.log('created',created);
+          console.log('Sails app lifted at http://localhost:1337');
+        });
+    }
+  });
+});

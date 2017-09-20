@@ -9,10 +9,14 @@ const pokedex = require('../services/pokedex');
 
 module.exports = {
     find: function(req, res) {
-        return res.ok(pokedex);
+        Pokemon.find({}).exec(function(err, allPokemon) {
+	  if (err)
+	    return res.serverError(err);
+		
+	  return res.ok(allPokemon);
+	});
     },
     findOne: function(req, res) {
-        // TODO: prepopulate Pokemon model with pokedex json values, so can query by pid 
         let pid = req.params.pokemonId;
         Pokemon.findOne({
           pokemonId: pid

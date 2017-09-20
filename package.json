@@ -18,7 +18,7 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.0",
-    "rc": "1.0.1",
+    "machinepack-fs": "^8.0.2",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9"
   },
