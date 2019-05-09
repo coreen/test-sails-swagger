@@ -6,9 +6,6 @@ RUN apk --no-cache add curl
 # Set service location
 WORKDIR /home/test-sails-swagger
 
-# Set registry path
-COPY .npmrc ./
-
 # Install node modules
 COPY package.json ./
 RUN npm install
