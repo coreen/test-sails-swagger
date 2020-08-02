@@ -15,12 +15,12 @@ module.exports = {
             return res.ok({
                "health": "ok"
             });
-  		} else {
+        } else {
            res.status(503);
            return res.send({
               "health": "bad"
            });
         }
-  	});
+    });
   }
 };
